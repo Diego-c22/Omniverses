@@ -1,0 +1,28 @@
+{
+  "name": "omniverses",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diego-c22/Omniverses.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Diego-c22/Omniverses/issues"
+  },
+  "homepage": "https://github.com/Diego-c22/Omniverses#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "hardhat": "^2.10.1"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "@nomiclabs/hardhat-solhint": "^2.0.1"
+  }
+}
