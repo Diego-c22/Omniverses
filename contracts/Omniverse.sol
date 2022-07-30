@@ -8,6 +8,10 @@ import "./ERC721-upgradeable/ERC721AUpgradeable.sol";
 /** @author Diego Cortes **/
 /** @title Omniverse */
 contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
+    /**
+     * @dev Initialize upgradeable storage (constructor).
+     * @custom:restriction This function only can be executed one time.
+     */
     function initialize() public initializerERC721A initializer {
         __ERC721A_init({
             name_: "Omniverses",
@@ -23,6 +27,11 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         __Ownable_init();
     }
 
+    /**
+     * @dev Mint NFT taking as reference presale values
+     * @param quantity Quantity of nfts to mint in transaction
+     * @custom:restriction Quantity must be less or equals to maxBatchSize
+     */
     function preSaleMint(uint256 quantity) external payable {
         require(
             ERC721AStorage.layout()._amountForPreSale <=
@@ -43,6 +52,11 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         }
     }
 
+    /**
+     * @dev Mint NFT taking as reference public sale values
+     * @param quantity Quantity of nfts to mint in transaction
+     * @custom:restriction Quantity must be less or equals to maxBatchSize
+     */
     function publicSaleMint(uint256 quantity) external payable {
         require(
             ERC721AStorage.layout()._amountForPublicSale <=
@@ -63,7 +77,12 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         }
     }
 
-    function freeMint(uint256 quantity) external payable {
+    /**
+     * @dev Mint nft without pay
+     * @param quantity Quantity of nfts to mint in transaction
+     * @custom:restriction Only owner can execute this function
+     */
+    function freeMint(uint256 quantity) external onlyOwner {
         require(
             ERC721AStorage.layout()._amountForFree <=
                 (ERC721AStorage.layout()._freeSaleCurrentIndex + quantity),
