@@ -8,13 +8,13 @@ pragma solidity ^0.8.4;
  * @dev Interface of ERC721A.
  */
 interface IERC721AUpgradeable {
-  /**
+    /**
      * The quantity of tokens by transaction or wallet exceeds the maximum batch size.
      */
     error ExceedsMaximumBatchSize();
 
     /**
-     * The maximun number of tokens by transaction or wallet cannot be zero.
+     * The maximum number of tokens by transaction or wallet cannot be zero.
      */
     error MaximumBatchSizeZero();
 
@@ -90,7 +90,7 @@ interface IERC721AUpgradeable {
     error MintERC2309QuantityExceedsLimit();
 
     /**
-     * The `extraData` cannot be set on an unintialized ownership slot.
+     * The `extraData` cannot be set on an uninitialized ownership slot.
      */
     error OwnershipNotInitializedForExtraData();
 
@@ -141,18 +141,30 @@ interface IERC721AUpgradeable {
     /**
      * @dev Emitted when `tokenId` token is transferred from `from` to `to`.
      */
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Transfer(
+        address indexed from,
+        address indexed to,
+        uint256 indexed tokenId
+    );
 
     /**
      * @dev Emitted when `owner` enables `approved` to manage the `tokenId` token.
      */
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+    event Approval(
+        address indexed owner,
+        address indexed approved,
+        uint256 indexed tokenId
+    );
 
     /**
      * @dev Emitted when `owner` enables or disables
      * (`approved`) `operator` to manage all of its assets.
      */
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+    event ApprovalForAll(
+        address indexed owner,
+        address indexed operator,
+        bool approved
+    );
 
     /**
      * @dev Returns the number of tokens in `owner`'s account.
@@ -259,14 +271,20 @@ interface IERC721AUpgradeable {
      *
      * - `tokenId` must exist.
      */
-    function getApproved(uint256 tokenId) external view returns (address operator);
+    function getApproved(uint256 tokenId)
+        external
+        view
+        returns (address operator);
 
     /**
      * @dev Returns if the `operator` is allowed to manage all of the assets of `owner`.
      *
      * See {setApprovalForAll}.
      */
-    function isApprovedForAll(address owner, address operator) external view returns (bool);
+    function isApprovedForAll(address owner, address operator)
+        external
+        view
+        returns (bool);
 
     // =============================================================
     //                        IERC721Metadata
@@ -298,5 +316,10 @@ interface IERC721AUpgradeable {
      *
      * See {_mintERC2309} for more details.
      */
-    event ConsecutiveTransfer(uint256 indexed fromTokenId, uint256 toTokenId, address indexed from, address indexed to);
+    event ConsecutiveTransfer(
+        uint256 indexed fromTokenId,
+        uint256 toTokenId,
+        address indexed from,
+        address indexed to
+    );
 }
