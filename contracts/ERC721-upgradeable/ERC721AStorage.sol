@@ -44,42 +44,40 @@ library ERC721AStorage {
         mapping(uint256 => ERC721AStorage.TokenApprovalRef) _tokenApprovals;
         // Mapping from owner to operator approvals
         mapping(address => mapping(address => bool)) _operatorApprovals;
-
         // Maximum number of mints allowed by transaction or wallet in presale
         uint256 _maxBatchSizePreSale;
-
         // Maximum number of mints allowed by transaction or wallet in publicSale
         uint256 _maxBatchSizePublicSale;
-
         // Maximum number of nfts that can be minted
         uint256 _collectionSize;
-
         // Maximum number of nfts that can be minted free
         uint256 _amountForFree;
-
         // Maximum number of ntfs that can be minted in presale.
         uint256 _amountForPreSale;
-
         // Maximum number of ntfs that can be minted in public sale.
         uint256 _amountForPublicSale;
-
         // Price by nft in public sale.
         uint256 _pricePublicSale;
-
         // Price by nft in presale.
         uint256 _pricePreSale;
-
         // Items sold in presale
         uint256 _preSaleCurrentIndex;
-
         // Items sold in  public sale
         uint256 _publicSaleCurrentIndex;
-
         // Items minted free
         uint256 _freeSaleCurrentIndex;
+        // Data is already available or still must not be reveled.
+        uint256 _reveledURI;
+        // Determine if public sale is active
+        bool _publicSaleActive;
+        // Determine if pre-sale is active
+        bool _preSaleActive;
+        // Saves the first owner of each nft
+        mapping(uint256 => address) _royalties;
     }
 
-    bytes32 internal constant STORAGE_SLOT = keccak256('ERC721A.contracts.storage.ERC721A');
+    bytes32 internal constant STORAGE_SLOT =
+        keccak256("ERC721A.contracts.storage.ERC721A");
 
     function layout() internal pure returns (Layout storage l) {
         bytes32 slot = STORAGE_SLOT;
