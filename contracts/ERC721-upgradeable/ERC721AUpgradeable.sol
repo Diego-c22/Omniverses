@@ -90,7 +90,7 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
         0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef;
 
     // mapping that saves users have already recived token sales distribution
-    mapping(address => bool) private _reciveDistribution;
+    mapping(address => bool) private _receiveDistribution;
 
     // =============================================================
     //                          CONSTRUCTOR
@@ -1177,7 +1177,7 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
 
     /**
      * @dev Called during each token transfer to set the 24bit `extraData` field.
-     * Intended to be overridden by the cosumer contract.
+     * Intended to be overridden by the consumer contract.
      *
      * `previousExtraData` - the value of `extraData` before transfer.
      *
@@ -1266,34 +1266,34 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
 
     /**
      * @dev Get all holders and distribute some percent of the gains between them.
-     * @param value Amount of ehter in wai to distribute
+     * @param value Amount of ether in wai to distribute
      * @param percent Amount of percent of the value to distribute
      */
     function _distribution(uint256 value, uint256 percent) internal {
         uint256 totalTokens;
         uint256 totalOwners;
-        address[] memory beneficaries = new address[](1000);
+        address[] memory beneficiaries = new address[](1000);
         unchecked {
             totalTokens = ERC721AStorage.layout()._currentIndex + 1;
         }
 
         for (uint i = 1; i < totalTokens; i++) {
             address owner = ownerOf(i);
-            if (!_reciveDistribution[owner]) {
-                beneficaries[totalOwners] = owner;
+            if (!_receiveDistribution[owner]) {
+                beneficiaries[totalOwners] = owner;
                 unchecked {
                     ++totalOwners;
                 }
-                _reciveDistribution[owner] = true;
+                _receiveDistribution[owner] = true;
             }
         }
 
         uint256 amountByOwner = ((value * percent) / 100);
 
         for (uint i; i < totalOwners; i++) {
-            (bool sent, ) = payable(beneficaries[i]).call{value: amountByOwner}(
-                ""
-            );
+            (bool sent, ) = payable(beneficiaries[i]).call{
+                value: amountByOwner
+            }("");
             require(sent, "Failed to send Ether");
         }
     }

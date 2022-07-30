@@ -36,7 +36,7 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         require(
             ERC721AStorage.layout()._amountForPreSale <=
                 (ERC721AStorage.layout()._preSaleCurrentIndex + quantity),
-            "Transfer exceeds total suplay."
+            "Transfer exceeds total supply."
         );
         require(
             balanceOf(msg.sender) + quantity <=
@@ -61,7 +61,7 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         require(
             ERC721AStorage.layout()._amountForPublicSale <=
                 (ERC721AStorage.layout()._publicSaleCurrentIndex + quantity),
-            "Transfer exceeds total suplay."
+            "Transfer exceeds total supply."
         );
         require(
             balanceOf(msg.sender) + quantity <=
@@ -86,7 +86,7 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         require(
             ERC721AStorage.layout()._amountForFree <=
                 (ERC721AStorage.layout()._freeSaleCurrentIndex + quantity),
-            "Transfer exceeds total suplay."
+            "Transfer exceeds total supply."
         );
 
         _mint(msg.sender, quantity);
@@ -97,11 +97,11 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
     }
 
     /**
-     * @dev Distribuite rewards for holders.
+     * @dev Distribute rewards for holders.
      * @custom:restriction Function can only be executed when collection is sold out.
      * @custom:restriction Only owner can execute this function.
      */
-    function distibuteHoldersReward() external onlyOwner {
+    function distributeHoldersReward() external onlyOwner {
         require(
             ERC721AStorage.layout()._currentIndex == 1000,
             "Collection is not sold out."
