@@ -324,8 +324,11 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
         returns (string memory)
     {
         if (!_exists(tokenId)) revert URIQueryForNonexistentToken();
-
-        string memory baseURI = _baseURI();
+        uint256 _reveledURI = ERC721AStorage.layout()._reveledURI;
+        string memory baseURI = _reveledURI != 0 &&
+            block.timestamp >= _reveledURI
+            ? _baseURI()
+            : "";
         return
             bytes(baseURI).length != 0
                 ? string(abi.encodePacked(baseURI, _toString(tokenId)))

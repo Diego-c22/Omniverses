@@ -34,6 +34,10 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
      */
     function preSaleMint(uint256 quantity) external payable {
         require(
+            ERC721AStorage.layout()._preSaleActive,
+            "Presale is not active"
+        );
+        require(
             ERC721AStorage.layout()._amountForPreSale <=
                 (ERC721AStorage.layout()._preSaleCurrentIndex + quantity),
             "Transfer exceeds total supply."
@@ -58,6 +62,10 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
      * @custom:restriction Quantity must be less or equals to maxBatchSize
      */
     function publicSaleMint(uint256 quantity) external payable {
+        require(
+            ERC721AStorage.layout()._publicSaleActive,
+            "Public sale is not active"
+        );
         require(
             ERC721AStorage.layout()._amountForPublicSale <=
                 (ERC721AStorage.layout()._publicSaleCurrentIndex + quantity),
@@ -94,6 +102,30 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
         unchecked {
             ERC721AStorage.layout()._freeSaleCurrentIndex + quantity;
         }
+    }
+
+    /**
+     * @dev active or deactivate public sale and if it is the
+     *  first time is activated reveling time is set.
+     * @param status Use true to activate or false to deactivate.
+     * @custom:restriction Only owner can execute this function
+     */
+    function activePublicSale(bool status) external onlyOwner {
+        ERC721AStorage.layout()._publicSaleActive = status;
+        if (ERC721AStorage.layout()._reveledURI == 0) {
+            unchecked {
+                ERC721AStorage.layout()._reveledURI = block.timestamp + 259200;
+            }
+        }
+    }
+
+    /**
+     * @dev active or deactivate pre-sale.
+     * @param status Use true to activate or false to deactivate.
+     * @custom:restriction Only owner can execute this function
+     */
+    function activePreSale(bool status) external onlyOwner {
+        ERC721AStorage.layout()._preSaleActive = status;
     }
 
     /**
