@@ -89,6 +89,9 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
     bytes32 private constant _TRANSFER_EVENT_SIGNATURE =
         0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef;
 
+    // mapping that saves users have already recived token sales distribution
+    mapping(address => bool) private _reciveDistribution;
+
     // =============================================================
     //                          CONSTRUCTOR
     // =============================================================
@@ -1258,6 +1261,40 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
             str := sub(str, 0x20)
             // Store the length.
             mstore(str, length)
+        }
+    }
+
+    /**
+     * @dev Get all holders and distribute some percent of the gains between them.
+     * @param value Amount of ehter in wai to distribute
+     * @param percent Amount of percent of the value to distribute
+     */
+    function _distribution(uint256 value, uint256 percent) internal {
+        uint256 totalTokens;
+        uint256 totalOwners;
+        address[] memory beneficaries = new address[](1000);
+        unchecked {
+            totalTokens = ERC721AStorage.layout()._currentIndex + 1;
+        }
+
+        for (uint i = 1; i < totalTokens; i++) {
+            address owner = ownerOf(i);
+            if (!_reciveDistribution[owner]) {
+                beneficaries[totalOwners] = owner;
+                unchecked {
+                    ++totalOwners;
+                }
+                _reciveDistribution[owner] = true;
+            }
+        }
+
+        uint256 amountByOwner = ((value * percent) / 100);
+
+        for (uint i; i < totalOwners; i++) {
+            (bool sent, ) = payable(beneficaries[i]).call{value: amountByOwner}(
+                ""
+            );
+            require(sent, "Failed to send Ether");
         }
     }
 }

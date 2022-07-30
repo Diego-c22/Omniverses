@@ -95,4 +95,25 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
             ERC721AStorage.layout()._freeSaleCurrentIndex + quantity;
         }
     }
+
+    /**
+     * @dev Distribuite rewards for holders.
+     * @custom:restriction Function can only be executed when collection is sold out.
+     * @custom:restriction Only owner can execute this function.
+     */
+    function distibuteHoldersReward() external onlyOwner {
+        require(
+            ERC721AStorage.layout()._currentIndex == 1000,
+            "Collection is not sold out."
+        );
+        uint256 totalSalesAmount;
+        unchecked {
+            totalSalesAmount = ((ERC721AStorage.layout()._pricePublicSale *
+                ERC721AStorage.layout()._amountForPublicSale) +
+                (ERC721AStorage.layout()._pricePublicSale *
+                    ERC721AStorage.layout()._amountForPublicSale));
+        }
+
+        _distribution({value: totalSalesAmount, percent: 15});
+    }
 }
