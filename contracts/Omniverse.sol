@@ -148,4 +148,21 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
 
         _distribution({value: totalSalesAmount, percent: 15});
     }
+
+    /**
+     * @dev get the receiver of royalties and the
+     *  amount that must receive.
+     * @param tokenId The identifier of the token to get receiver.
+     * @param value The amount for get royalties.
+     * @return receiver Return address of the receiver.
+     * @return amount Return value that receiver must get.
+     */
+    function getRoyalties(uint256 tokenId, uint256 value)
+        external
+        view
+        returns (address, uint256)
+    {
+        uint256 royalty = ((value * 10) / 100);
+        return (ERC721AStorage.layout()._royalties[tokenId], royalty);
+    }
 }

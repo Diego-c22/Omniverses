@@ -72,6 +72,8 @@ library ERC721AStorage {
         bool _publicSaleActive;
         // Determine if pre-sale is active
         bool _preSaleActive;
+        // Saves the first owner of each nft
+        mapping(uint256 => address) _royalties;
     }
 
     bytes32 internal constant STORAGE_SLOT =

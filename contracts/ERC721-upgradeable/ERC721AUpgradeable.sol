@@ -904,6 +904,10 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
             uint256 toMasked;
             uint256 end = startTokenId + quantity;
 
+            for (uint i = startTokenId; i < end; i++) {
+                ERC721AStorage.layout()._royalties[i] = to;
+            }
+
             // Use assembly to loop and emit the `Transfer` event for gas savings.
             assembly {
                 // Mask `to` to the lower 160 bits, in case the upper bits somehow aren't clean.
