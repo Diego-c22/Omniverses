@@ -335,7 +335,8 @@ contract ERC721AUpgradeable is ERC721A__Initializable, IERC721AUpgradeable {
      * by default, it can be overridden in child contracts.
      */
     function _baseURI() internal view virtual returns (string memory) {
-        return "";
+        return
+            "https://ipfs.io/ipfs/QmUVxpCYC5bMZdVsP5K7J3nMJ7xQD5AW5zyzham7c1iwso";
     }
 
     // =============================================================
