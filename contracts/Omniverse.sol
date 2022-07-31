@@ -38,7 +38,7 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
             "Presale is not active"
         );
         require(
-            ERC721AStorage.layout()._amountForPreSale <=
+            ERC721AStorage.layout()._amountForPreSale >=
                 (ERC721AStorage.layout()._preSaleCurrentIndex + quantity),
             "Transfer exceeds total supply."
         );
@@ -67,7 +67,7 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
             "Public sale is not active"
         );
         require(
-            ERC721AStorage.layout()._amountForPublicSale <=
+            ERC721AStorage.layout()._amountForPublicSale >=
                 (ERC721AStorage.layout()._publicSaleCurrentIndex + quantity),
             "Transfer exceeds total supply."
         );
@@ -92,7 +92,7 @@ contract Omniverse is ERC721AUpgradeable, OwnableUpgradeable {
      */
     function freeMint(uint256 quantity) external onlyOwner {
         require(
-            ERC721AStorage.layout()._amountForFree <=
+            ERC721AStorage.layout()._amountForFree >=
                 (ERC721AStorage.layout()._freeSaleCurrentIndex + quantity),
             "Transfer exceeds total supply."
         );
